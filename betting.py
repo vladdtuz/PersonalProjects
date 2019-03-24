@@ -1,12 +1,6 @@
 import pandas as pd
 import numpy as np
 
-odds =[[1.83,3.40,1],
-      [1.,3.5,4.4],
-      [ 1.89,1,4.10]]
-odds2 = [[13,10,1],
-      [1.1,2,3],
-      [1.5,1.1,1.5]]
 
 def TrueProb (OddsData):
     """ 
