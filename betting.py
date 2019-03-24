@@ -35,7 +35,7 @@ def TrueOdds (TrueProbability):
     true_odds = 1/(np.array(TrueProbability) - 0.05)
     return true_odds
 
-def ToBuy (OfferedOdds, TrueOddsArray):
+def ToBuy (odds, TrueOddsArray):
     """"
     Function to identify which site and which game to buy odds from
     Input:
@@ -45,7 +45,7 @@ def ToBuy (OfferedOdds, TrueOddsArray):
      Game and website to buy odds from.
      Provides 3 outputs. best buying site when buying A, or B or Draw
      """
-    offeredOdds = pd.DataFrame(odds, columns =['TeamA','Draw','TeamB'],index=['SiteA','SiteB','SiteC'])
+    offeredOdds = pd.DataFrame(odds, columns =['TeamA','Draw','TeamB'])
     TobuyDf = pd.DataFrame()
     TobuyDf['FavourableOnA'] = offeredOdds['TeamA'].where(offeredOdds['TeamA'] > TrueOddsArray[0])
     TobuyDf['FavourableOnDraw'] = offeredOdds['Draw'].where(offeredOdds['Draw'] > TrueOddsArray[1])
@@ -55,3 +55,5 @@ def ToBuy (OfferedOdds, TrueOddsArray):
     draw = TobuyDf.sort_values(by=['FavourableOnDraw'],ascending=False)
     return winA,winB,draw
 
+
+    
