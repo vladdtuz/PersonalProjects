@@ -77,7 +77,17 @@ def TR(high, low, close):
     return TR
 
 def ATR(trueRange, periods):
-    AveTrueRange = [sum(trueRange[:periods])/len(trueRange[:periods])]
-    AveTrueRange += [AveTrueRange[i-periods] *(periods-1) +trueRange[i] 
-                        for i in range(periods,len(trueRange))]
-    return AveTrueRange
+    '''
+    Function to calculate the average true range for a given
+    period
+    Input:
+        list of true values
+        float - interval to calculate the averages on
+    Output:
+        list containing the average true values
+    '''
+    first = [sum(trueRange[:periods])/len(trueRange[:periods])]
+    Ave= first 
+    for i in range(periods,len(trueRange)):
+        Ave.append((Ave[i-periods]*(periods-1)+trueRange[i])/periods)
+    return Ave
