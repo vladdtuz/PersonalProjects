@@ -107,3 +107,13 @@ def SMMA(Close,periods):
         WeightedCount.append(1 + (1-alpha)*WeightedCount[i-1])
         SMMA.append(WeightedSum[i]/WeightedCount[i])
     return SMMA
+
+def DiPos(DMPlus,DMVe,ATR,periods):
+    DiPos = []
+    DiVe = []
+    for i in range(0,len(ATR)):
+        DiPos.append(100 * DMPlus[i+periods-2] /ATR[i])
+        DiVe.append(100*DMVe[i+periods-2]/ATR[i])
+    
+    return DiPos,DiVe
+
