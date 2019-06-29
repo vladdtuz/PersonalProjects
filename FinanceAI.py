@@ -1,7 +1,3 @@
-import pandas as pd
-data = pd.read_csv('A.csv')
-data.head()
-
 def PosMov(high):
     '''
     Function to return today's high - yesterday's high
@@ -91,3 +87,23 @@ def ATR(trueRange, periods):
     for i in range(periods,len(trueRange)):
         Ave.append((Ave[i-periods]*(periods-1)+trueRange[i])/periods)
     return Ave
+
+def SMMA(Close,periods):
+    '''
+    Function to for smoothed moving average. Function takes a list
+    and a period and uses it to calculate a smooter line
+    Input:
+        list of size n
+        periods as integer
+    Output:
+        list of SMMA, smoothed moving averages of size n-1
+    '''
+    WeightedSum = [0]
+    WeightedCount =[0]
+    SMMA = []
+    alpha = 1/periods
+    for i in range(1,len(Close)):
+        WeightedSum.append(Close[i] + (1-alpha)*WeightedSum[i-1])
+        WeightedCount.append(1 + (1-alpha)*WeightedCount[i-1])
+        SMMA.append(WeightedSum[i]/WeightedCount[i])
+    return SMMA
