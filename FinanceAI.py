@@ -108,12 +108,44 @@ def SMMA(Close,periods):
         SMMA.append(WeightedSum[i]/WeightedCount[i])
     return SMMA
 
-def DiPos(DMPlus,DMVe,ATR,periods):
-    DiPos = []
-    DiVe = []
-    for i in range(0,len(ATR)):
-        DiPos.append(100 * DMPlus[i+periods-2] /ATR[i])
-        DiVe.append(100*DMVe[i+periods-2]/ATR[i])
+# def DiPos(DMPlus,DMVe,ATR,periods):
+#     DiPos = []
+#     DiVe = []
+#     for i in range(0,len(ATR)):
+#         DiPos.append(100 * DMPlus[i+periods-2] /ATR[i])
+#         DiVe.append(100*DMVe[i+periods-2]/ATR[i])
     
-    return DiPos,DiVe
+#     return DiPos,DiVe
+
+def DI(DMPos,DMVe,ATR,periods):
+    '''
+    Function to find the Directional movement of the signals.
+
+    Input:
+        Positive movement; size n
+        Negative movement; size n
+        average true range size n-periods
+        periods over which the ATR was calculated; periods
+    Output:
+        two lists. one for the DI+ and one for DI-
+        sized n-periods
+    '''
+
+    from numpy import array
+    from FinanceAI import SMMA
+    DMPos= array(DMPos)
+    DMVe = array(DMVe)
+    ATR = array(ATR)
+    bb = DMPos[periods-1:]/ATR
+    cc = DMVe[periods-1:]/ATR
+
+    return (100*SMMA(bb,periods),100*SMMA(cc,periods))
+
+def ADX(high,low,close,periods):
+    import FinanceAI as fn
+    import numpy as np 
+    aa = fn.DirectionalMovement(fn.PosMov(high),fn.NegMove(low))
+    bb = fn.ATR(fn.TR(high,low,close),periods)
+    cc = fn.DI(aa[0],aa[1],bb,periods)
+    return 100*((np.abs(cc[0])-np.abs(cc[1]))/(np.abs(cc[0])+np.abs(cc[1])))
 
