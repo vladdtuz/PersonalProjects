@@ -148,5 +148,6 @@ def ADX(high,low,close,periods):
     bb = fn.ATR(fn.TR(high,low,close),periods)
     cc = fn.DI(aa[0],aa[1],bb,periods)
     # 
-    return 100*((np.abs(cc[0])-np.abs(cc[1]))/(np.abs(cc[0])+np.abs(cc[1])))
+    return 100*(np.abs(
+        (np.array(cc[0])-np.array(cc[1]))/(np.array(cc[0])+np.array(cc[1]))))
 
