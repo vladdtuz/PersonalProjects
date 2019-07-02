@@ -138,8 +138,8 @@ def DI(DMPos,DMVe,ATR,periods):
     ATR = array(ATR)
     bb = DMPos[periods-1:]/ATR
     cc = DMVe[periods-1:]/ATR
-
-    return (100*SMMA(bb,periods),100*SMMA(cc,periods))
+# 
+    return 100*array(SMMA(bb,periods)),100*array(SMMA(cc,periods))
 
 def ADX(high,low,close,periods):
     import FinanceAI as fn
@@ -147,5 +147,6 @@ def ADX(high,low,close,periods):
     aa = fn.DirectionalMovement(fn.PosMov(high),fn.NegMove(low))
     bb = fn.ATR(fn.TR(high,low,close),periods)
     cc = fn.DI(aa[0],aa[1],bb,periods)
+    # 
     return 100*((np.abs(cc[0])-np.abs(cc[1]))/(np.abs(cc[0])+np.abs(cc[1])))
 
