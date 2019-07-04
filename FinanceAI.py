@@ -133,13 +133,14 @@ def DI(DMPos,DMVe,ATR,periods):
 
     from numpy import array
     from FinanceAI import SMMA
-    DMPos= array(DMPos)
-    DMVe = array(DMVe)
+    bb = SMMA(DMPos,periods)
+    cc = SMMA(DMVe,periods)
     ATR = array(ATR)
-    bb = DMPos[periods-1:]/ATR
-    cc = DMVe[periods-1:]/ATR
+    bb = array(bb)
+    cc = array(cc)
+
 # 
-    return 100*array(SMMA(bb,periods)),100*array(SMMA(cc,periods))
+    return 100*bb[periods-2:]/ATR,100*cc[periods-2:]/ATR
 
 def ADX(high,low,close,periods):
     import FinanceAI as fn
@@ -147,7 +148,10 @@ def ADX(high,low,close,periods):
     aa = fn.DirectionalMovement(fn.PosMov(high),fn.NegMove(low))
     bb = fn.ATR(fn.TR(high,low,close),periods)
     cc = fn.DI(aa[0],aa[1],bb,periods)
+    cc = np.array(cc)
+    dd = np.abs(cc[0]-cc[1])
+    ff = np.array(fn.SMMA(dd,periods))
+    ee = cc[0]+cc[1]
     # 
-    return 100*(np.abs(
-        (np.array(cc[0])-np.array(cc[1]))/(np.array(cc[0])+np.array(cc[1]))))
+    return 100*(ff/ee[1:])
 
