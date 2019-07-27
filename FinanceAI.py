@@ -108,15 +108,6 @@ def SMMA(Close,periods):
         SMMA.append(WeightedSum[i]/WeightedCount[i])
     return SMMA
 
-# def DiPos(DMPlus,DMVe,ATR,periods):
-#     DiPos = []
-#     DiVe = []
-#     for i in range(0,len(ATR)):
-#         DiPos.append(100 * DMPlus[i+periods-2] /ATR[i])
-#         DiVe.append(100*DMVe[i+periods-2]/ATR[i])
-    
-#     return DiPos,DiVe
-
 def DI(DMPos,DMVe,ATR,periods):
     '''
     Function to find the Directional movement of the signals.
@@ -139,7 +130,6 @@ def DI(DMPos,DMVe,ATR,periods):
     bb = array(bb)
     cc = array(cc)
 
-# 
     return 100*bb[periods-2:]/ATR,100*cc[periods-2:]/ATR
 
 def ADX(high,low,close,periods):
