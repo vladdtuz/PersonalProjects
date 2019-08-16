@@ -101,6 +101,7 @@ def SalvageDrops(weight,ArmourType):
         
 def RawMaterials(level,weight):
         print(level)
+        
         if weight == 'Heavy':
                 if level <20:
                         raw =  19697
