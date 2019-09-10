@@ -1,7 +1,7 @@
+
 def Combination(n,r):
     from math import factorial
     return factorial(n)/(factorial(r)* factorial(n-r))
-
 def Probability(total_numbers,total_drawn,pool_numbers,drawn_numbers):
     '''
     Total_numbers - total numbers in the game
@@ -86,22 +86,50 @@ def EvenOdd(numbers):
     
     return even_numbers,odd_numbers
 
-def TwoPair(numbers):
-    return
+def Analysis(numbers, pool_size):
+    '''
+    Function that takes list of numbers and integer of pool size
+    Returns:
+        - occurance of even numbers
+        - occurance of odd numbers
+        - occurance of low numbers
+        - occurance of high numbers
+    '''
+    even = len(set(numbers).intersection(Groups(pool_size)[0]))  + len(set(numbers).intersection(Groups(pool_size)[2]))
+    odd = len(set(numbers).intersection(Groups(pool_size)[1]))  + len(set(numbers).intersection(Groups(pool_size)[3]))
+    low = len(set(numbers).intersection(Groups(pool_size)[0]))  + len(set(numbers).intersection(Groups(pool_size)[1]))
+    high = len(set(numbers).intersection(Groups(pool_size)[2]))  + len(set(numbers).intersection(Groups(pool_size)[3]))
+    
+    return (even,odd,low,high)
 
-def lot():
-    import random
-    return random.sample([1,2,3,4,5,6,7,8,9],3)
 
+import itertools
 
+from time import time
+tic = time()
+probs = []
+pool_size = 10
+drawn_size = 6
+
+drawn_numbersz = list(itertools.combinations(range(1,pool_size+1),drawn_size))
 i = 0
-while i < 4:
-    pool = 9
-    drawn = 3
-    even = EvenOdd(pool)[0]
-    odd = EvenOdd(pool)[1]
-    print(Probability(pool,drawn,even,i))
-    print(Probability(pool,drawn,odd,i))
-    print('---------')
+while i < Combination(pool_size,drawn_size):
 
+    analytics = Analysis(drawn_numbersz[i],pool_size)
+    even = EvenOdd(pool_size)[0]
+    odd = EvenOdd(pool_size)[1]
+    high = HighLow(pool_size)[0]
+    low = HighLow(pool_size)[1]
+
+    a = Probability(pool_size,drawn_size,even,analytics[0])    # probability of even
+    b = Probability(pool_size,drawn_size,odd,analytics[1])
+    c = Probability(pool_size,drawn_size,high,analytics[3])
+    d = Probability(pool_size,drawn_size,low,analytics[2])
+    probs.append(a*b*c*d)
     i+=1
+
+import pandas as pd
+data =  pd.DataFrame({'Numbers': drawn_numbersz, 'Probabilities': probs})
+
+toc = time()
+print(toc-tic)
