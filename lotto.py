@@ -108,12 +108,12 @@ import itertools
 from time import time
 tic = time()
 probs = []
-pool_size = 10
+pool_size =45
 drawn_size = 6
-
-drawn_numbersz = list(itertools.combinations(range(1,pool_size+1),drawn_size))
+combos = [1,2,4,6,8,10,12,17,19,21,23,25,27,31,35]
+drawn_numbersz = list(itertools.combinations(combos,drawn_size))
 i = 0
-while i < Combination(pool_size,drawn_size):
+while i <len(drawn_numbersz) :
 
     analytics = Analysis(drawn_numbersz[i],pool_size)
     even = EvenOdd(pool_size)[0]
@@ -121,15 +121,14 @@ while i < Combination(pool_size,drawn_size):
     high = HighLow(pool_size)[0]
     low = HighLow(pool_size)[1]
 
-    a = Probability(pool_size,drawn_size,even,analytics[0])    # probability of even
-    b = Probability(pool_size,drawn_size,odd,analytics[1])
-    c = Probability(pool_size,drawn_size,high,analytics[3])
-    d = Probability(pool_size,drawn_size,low,analytics[2])
-    probs.append(a*b*c*d)
+    a = Combination(odd,analytics[1])*Combination(even,analytics[0])/Combination(pool_size,drawn_size)
+    b = Combination(low,analytics[2])*Combination(high,analytics[3])/Combination(pool_size,drawn_size)
+    probs.append(a*b)
     i+=1
 
 import pandas as pd
 data =  pd.DataFrame({'Numbers': drawn_numbersz, 'Probabilities': probs})
-
+sorted_data = data.sort_values(by=['Probabilities'])
 toc = time()
 print(toc-tic)
+
