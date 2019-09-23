@@ -108,9 +108,9 @@ import itertools
 from time import time
 tic = time()
 probs = []
-pool_size =45
-drawn_size = 6
-combos = [1,2,4,6,8,10,12,17,19,21,23,25,27,31,35]
+pool_size =35
+drawn_size = 7
+combos = [17,2,11,22,23,24,25,29,34,7,20,32,4,5,9]
 drawn_numbersz = list(itertools.combinations(combos,drawn_size))
 i = 0
 while i <len(drawn_numbersz) :
